@@ -1,0 +1,43 @@
+function updateAxesOfMultipleCharts() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var summarySheet = ss.getSheetByName('Resumo'); // Aba onde os gráficos estão
+  var dataSheet = ss.getSheetByName('macro2d');   // Aba com os valores dos eixos
+  
+  // Definir os intervalos de mínimo e máximo para cada gráfico
+  var ranges = [
+    { minY: 'F6', maxY: 'G6', minX: 'H6', maxX: 'I6' },   // Gráfico 1
+    { minY: 'N6', maxY: 'O6', minX: 'P6', maxX: 'Q6' },   // Gráfico 2
+    { minY: 'V6', maxY: 'W6', minX: 'X6', maxX: 'Y6' },   // Gráfico 3
+    { minY: 'AD6', maxY: 'AE6', minX: 'AF6', maxX: 'AG6' }  // Gráfico 4
+  ];
+  
+  // Obter todos os gráficos na aba 'Resumo'
+  var charts = summarySheet.getCharts();
+  
+  // Verificar se há gráficos suficientes
+  if (charts.length < ranges.length) {
+    Logger.log('Número insuficiente de gráficos encontrados. Esperados: ' + ranges.length + ', Encontrados: ' + charts.length);
+    return;
+  }
+  
+  // Atualizar cada gráfico com os valores mínimos e máximos dos eixos Y e X
+  for (var i = 0; i < ranges.length; i++) {
+    var minY = dataSheet.getRange(ranges[i].minY).getValue();
+    var maxY = dataSheet.getRange(ranges[i].maxY).getValue();
+    var minX = dataSheet.getRange(ranges[i].minX).getValue();
+    var maxX = dataSheet.getRange(ranges[i].maxX).getValue();
+    
+    // Modificar os eixos Y e X do gráfico
+    var updatedChart = charts[i].modify()
+      .setOption('vAxis.minValue', minY)
+      .setOption('vAxis.maxValue', maxY)
+      .setOption('hAxis.minValue', minX)
+      .setOption('hAxis.maxValue', maxX)
+      .build();
+    
+    // Substituir o gráfico existente
+    summarySheet.updateChart(updatedChart);
+    
+    Logger.log('Eixos Y e X do gráfico ' + (i+1) + ' atualizados com sucesso.');
+  }
+}
