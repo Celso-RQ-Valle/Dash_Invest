@@ -24,5 +24,9 @@ Este projeto realiza a raspagem e análise de dados de várias fontes financeira
 - **Python**: Para raspagem de dados e análise.
 - **Selenium & BeautifulSoup**: Para a raspagem dos sites.
 - **yfinance**: Para obter dados do Yahoo Invest.
+- **scipy**: Para ajuste linear através MMQ da oscilações de preço para diferentes janelas de tempo.
 
+## Imagens
+![dash](https://github.com/user-attachments/assets/481918a5-4343-4f81-b10f-2b70cb4172a5)
+![dash select](https://github.com/user-attachments/assets/59082ca2-e430-4f04-a1a6-0ac6f2626149)
 
